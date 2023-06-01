@@ -9,12 +9,20 @@ module.exports = {
   },
   mode: 'development',
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
     port: 9000,
   },
   module: {
     rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
@@ -27,4 +35,3 @@ module.exports = {
     }),
   ],
 };
-

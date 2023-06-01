@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.todo {
+  border: 1px solid #000;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.todo-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.todo-due-date,
+.todo-priority {
+  font-size: 0.9em;
+}
+
+.new-todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.new-todo-form input,
+.new-todo-form button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.new-todo-form button {
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.new-todo-form button:hover {
+  background-color: #0056b3;
+}
