@@ -161,6 +161,13 @@ function renderAddButton() {
 export function renderProject(project) {
   root.innerHTML = ''; // Clear the root element
 
+  // Create a header element
+  const header = createElement('header', ['app-header', 'black-header']);
+  const title = createElement('h1', ['app-title']);
+  title.textContent = 'Todo';
+  header.appendChild(title);
+  root.appendChild(header);
+
   // Render the add button and append it to the root
   const addButton = renderAddButton();
   root.appendChild(addButton);

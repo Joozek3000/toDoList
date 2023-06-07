@@ -2,6 +2,11 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.app-title {
+  transform: translateY(10px);
+  margin-left: 10px;
+}
+
 .todo-container {
   display: flex;
   flex-wrap: wrap;
@@ -10,17 +15,25 @@ body {
 }
 
 .todo {
-  border: 1px solid #000;
+  border: 3px solid #000;
   margin: 10px; /* Adds some spacing between todo items */
   padding: 10px;
   flex-basis: calc(
     33.3333% - 20px
   ); /* Each todo item will take up roughly a third of the container's width, subtracting the margin */
   box-sizing: border-box; /* Makes sure the padding and border are included in the item's total width and height */
+  border-radius: 8px;
+  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
 }
 
 .todo:hover {
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(3px);
+  box-shadow: 2px 2px 0px 0px #000;
+}
+
+.black-header {
+  background-color: black;
+  color: white;
 }
 
 .todo-title {
@@ -48,14 +61,14 @@ body {
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  transition-duration: 0.4s;
+  transition-duration: 0.2s;
   border-radius: 5px;
+  box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1);
 }
 
 .delete-todo:hover {
-  background-color: white;
-  color: #f44336;
-  border: 1px solid #f44336;
+  transform: translateY(2px);
+  box-shadow: 2px 2px 0px 0px #000;
 }
 
 .add-button {
@@ -77,8 +90,16 @@ body {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 20% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  border: 3px solid black;
+  border-radius: 5px;
+  width: 30%; /* Could be more or less, depending on screen size */
+  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+}
+
+.modal-content > * {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
