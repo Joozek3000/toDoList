@@ -168,10 +168,6 @@ export function renderProject(project) {
   header.appendChild(title);
   root.appendChild(header);
 
-  // Render the add button and append it to the root
-  const addButton = renderAddButton();
-  root.appendChild(addButton);
-
   // Render each todo list in the project
   project.getAllTodoLists().forEach((todoList) => {
     const todoListElement = renderTodoList(todoList);
@@ -180,4 +176,7 @@ export function renderProject(project) {
     const newTodoForm = renderNewTodoForm(todoList, project);
     root.appendChild(newTodoForm); // Append each new todo form to the root
   });
+  // Render the add button and append it to the root
+  const addButton = renderAddButton();
+  root.appendChild(addButton);
 }
