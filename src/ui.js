@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, isToday, isThisWeek, isThisMonth } from 'date-fns';
 import './styles.css';
 
 let project = null;
@@ -54,6 +54,53 @@ function renderTodo(todo, todoList) {
   todoElement.appendChild(deleteButton);
 
   return todoElement;
+}
+
+function updateDisplayedTodos(menuItem) {
+  // Get today's date
+  const today = new Date();
+
+  let filteredTodos;
+
+  // Filter the todos based on the selected menu item
+  switch (menuItem) {
+    case 'Today':
+      // Get the todos due today
+      filteredTodos = project
+        .getAllTodoLists()
+        .flatMap((list) => list.getAllTodos())
+        .filter((todo) => isToday(new Date(todo.dueDate)));
+      break;
+    case 'This Week':
+      // Get the todos due this week
+      filteredTodos = project
+        .getAllTodoLists()
+        .flatMap((list) => list.getAllTodos())
+        .filter((todo) => isThisWeek(new Date(todo.dueDate)));
+      break;
+    case 'This Month':
+      // Get the todos due this month
+      filteredTodos = project
+        .getAllTodoLists()
+        .flatMap((list) => list.getAllTodos())
+        .filter((todo) => isThisMonth(new Date(todo.dueDate)));
+      break;
+    default:
+      // By default, show all todos
+      filteredTodos = project
+        .getAllTodoLists()
+        .flatMap((list) => list.getAllTodos());
+  }
+
+  // Clear the current todos
+  const todoContainer = document.querySelector('.todo-container');
+  todoContainer.innerHTML = '';
+
+  // Render the filtered todos
+  filteredTodos.forEach((todo) => {
+    const todoElement = renderTodo(todo);
+    todoContainer.appendChild(todoElement);
+  });
 }
 
 /// Render a list of todos
@@ -168,6 +215,9 @@ export function renderProject(project) {
   header.appendChild(title);
   root.appendChild(header);
 
+  // Render the menu
+  renderMenu();
+
   // Render each todo list in the project
   project.getAllTodoLists().forEach((todoList) => {
     const todoListElement = renderTodoList(todoList);
@@ -179,4 +229,35 @@ export function renderProject(project) {
   // Render the add button and append it to the root
   const addButton = renderAddButton();
   root.appendChild(addButton);
+}
+
+function renderMenu() {
+  // Create a menu container
+  const menuContainer = createElement('div', ['menu-container']);
+
+  // Create a list for the menu items
+  const menuList = createElement('ul', ['menu-list']);
+
+  // Define the menu items
+  const menuItems = ['Today', 'This Week', 'This Month'];
+
+  // Create each menu item and append it to the menu list
+  menuItems.forEach((item) => {
+    const menuItem = createElement('li', ['menu-item']);
+    const link = createElement('a', ['menu-link']);
+    link.textContent = item;
+    link.href = '#';
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      updateDisplayedTodos(item); // Update the displayed todos when a menu item is clicked
+    });
+    menuItem.appendChild(link);
+    menuList.appendChild(menuItem);
+  });
+
+  // Append the menu list to the menu container
+  menuContainer.appendChild(menuList);
+
+  // Append the menu container to the root
+  root.appendChild(menuContainer);
 }
