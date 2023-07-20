@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Joozek3000/toDoList#readme",
   "devDependencies": {
     "css-loader": "^6.8.1",
+    "eslint-config-prettier": "^8.8.0",
     "html-webpack-plugin": "^5.5.1",
     "nodemon": "^2.0.22",
     "style-loader": "^3.3.3",

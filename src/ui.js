@@ -114,7 +114,7 @@ function renderTodoList(todoList) {
 }
 
 // Render a new todo form
-function renderNewTodoForm(todoList, project) {
+function renderNewTodoForm(project) {
   if (!project) {
     console.error('No project defined');
     return;
@@ -183,6 +183,9 @@ function renderNewTodoForm(todoList, project) {
       return;
     }
 
+    // Here you would need to add the new todo to the appropriate list in the project
+    // You could ask the user for the list to which they want to add the new todo, or just add it to the first list in the project
+    const todoList = project.getAllTodoLists()[0]; // This is just an example, replace with your own logic
     todoList.addTodo(title, description, new Date(dueDate), priority); // Add the new todo to the todo list
     renderProject(project); // Render the updated project
   });
@@ -198,9 +201,13 @@ function renderAddButton() {
     // Find the modal and display it when the add button is clicked
     const modal = document.querySelector('.modal');
     if (modal) {
+      console.log('Modal found');
       modal.style.display = 'block';
+    } else {
+      console.log('Modal not found');
     }
   });
+  console.log('Add button created');
   return addButton;
 }
 
@@ -215,25 +222,33 @@ export function renderProject(project) {
   header.appendChild(title);
   root.appendChild(header);
 
-  // Render the menu
-  renderMenu();
+  // Render the menu and append it to the root
+  const menu = renderMenu();
+  root.appendChild(menu);
 
   // Render each todo list in the project
   project.getAllTodoLists().forEach((todoList) => {
     const todoListElement = renderTodoList(todoList);
-    root.appendChild(todoListElement); // Append each todo list element to the root
-
-    const newTodoForm = renderNewTodoForm(todoList, project);
-    root.appendChild(newTodoForm); // Append each new todo form to the root
+    root.appendChild(todoListElement);
   });
+
+  const newTodoForm = renderNewTodoForm(project);
+  root.appendChild(newTodoForm);
+
   // Render the add button and append it to the root
   const addButton = renderAddButton();
   root.appendChild(addButton);
+
+  // Render the menu
+  renderMenu();
 }
 
 function renderMenu() {
   // Create a menu container
   const menuContainer = createElement('div', ['menu-container']);
+
+  // Set the initial left property of the menu container
+  menuContainer.style.left = '-200px';
 
   // Create a list for the menu items
   const menuList = createElement('ul', ['menu-list']);
@@ -258,6 +273,22 @@ function renderMenu() {
   // Append the menu list to the menu container
   menuContainer.appendChild(menuList);
 
-  // Append the menu container to the root
-  root.appendChild(menuContainer);
+  // Create the menu button as a separate fixed element
+  const menuButton = createElement('button', ['menu-button']);
+  menuButton.textContent = '☰';
+
+  // Set the initial left property of the menu button
+  menuButton.style.left = '0px';
+
+  menuButton.addEventListener('click', () => {
+    const expanded = menuContainer.style.left === '0px';
+    menuContainer.style.left = expanded ? '-200px' : '0px';
+    menuButton.style.left = expanded ? '0px' : '200px';
+  });
+
+  // Append the menu button to the menu container
+  menuContainer.appendChild(menuButton);
+
+  // Return the menu container
+  return menuContainer;
 }
